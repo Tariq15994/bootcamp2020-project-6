@@ -12,7 +12,7 @@ const QuestionCard:React.FC<questionPropsType> = ({question,options , callback})
     }
     return (
         <div className='question-container'>
-            <div className='question-container'>
+            <div className=''>
                 {question}
                 </div>
             <form onSubmit={(e:React.FormEvent<EventTarget>)=>callback(e,selectedAns)} action="j.php">

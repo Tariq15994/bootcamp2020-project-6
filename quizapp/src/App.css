@@ -1,0 +1,6 @@
+.question-container{
+    max-width: 500px;
+    box-shadow: 10px 10px 10px wheat;
+    padding: 20px ;
+    margin: 0 auto;
+}
