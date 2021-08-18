@@ -9,37 +9,48 @@ function App() {
   let [questionNumber, setQuestionNumber] = useState(0)
   let [score, setScore] = useState(0);
   let [showResult, setShowResult] = useState(false);
-  let [restart, setRestart] = useState(false);
+  let [gameOver, setGameOver] = useState(false);
+  
+  const TOTAL_QUESTIONS:number = 3;
 
 
+
+  const startTrivia = async () => {
+    
+    setShowResult(false);
+    setGameOver(false);
+    const newQuestions = await getQuizDetails(
+      TOTAL_QUESTIONS,
+      "easy"
+    );
+    setQuiz(newQuestions);
+    setScore(0);
+    setQuestionNumber(0);
+  
+  };
+  
+  
   useEffect(() => {
-
-    async function fetchData() {
-      const questions: QuestionType[] = await getQuizDetails(5, "easy");
-      // console.log(questions);
-      setQuiz(questions);
-    }
-    fetchData();
+    startTrivia();
 
   }, []);
-  const handleSubmit = (e: React.FormEvent<EventTarget>, userAns: string) => {
+
+   const handleSubmit = (e: React.FormEvent<EventTarget>, userAns: string) => {
     console.log(quiz.length);
     e.preventDefault();
 
     const CurrentQuestion: QuestionType = quiz[questionNumber];
 
-    // console.log("Correct ans " + CurrentQuestion.correct_answer + "--user Selection :" + userAns)
+    
     if (userAns === CurrentQuestion.correct_answer) {
       setScore(++score);
 
     }
-    // console.log(userAns);
+    
     if (questionNumber !== quiz.length - 1)
       setQuestionNumber(++questionNumber);
     else
-      // alert("your score is "+ score +"out of " +quiz.length);
-      // setQuestionNumber(0);
-      // setScore(0);
+      
       setShowResult(true);
 
 
@@ -49,24 +60,17 @@ function App() {
     return (<h1>Loading ....</h1>)
   if (showResult) {
     return (
-      <div>
+      <div className="question-container result-container" >
         <h1>Quiz Result</h1>
         <p>Your score is {score} out of {quiz.length} </p>
-        <button onClick={()=>{return(<div>hlo</div>)}}>hwllo</button>
+        <button className='restart' onClick={startTrivia}>Restart</button>
       </div>
     )
 
   }
-// if (showResult){
-//   return(
-//     <div>hwllo</div>
-//   )
-// }
-
-
-
   return (
     <div className="App">
+      <h1>Quiz App</h1>
       <QuestionCard
         options={quiz[questionNumber].option}
         question={quiz[questionNumber].question}
@@ -84,17 +88,3 @@ export default App;
 
 
 
-{/* <button onClick={() => {
-          return (
-            <div>
-              <QuestionCard
-                options={quiz[questionNumber].option}
-                question={quiz[questionNumber].question}
-                callback={handleSubmit} />
-            </div>
-          )
-        }}>kmsknks
-          <a href="QuestionCard"> start</a>
-        </button> */}
-
-        {/* <button onClick="">Start</button> */}

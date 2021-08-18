@@ -2,25 +2,25 @@ import React, { useState } from "react";
 import {questionPropsType} from './../Types/quiz_type';
 
 const QuestionCard:React.FC<questionPropsType> = ({question,options , callback})=>{
-    // console.log(question,options)
+    
 
     let [selectedAns, setSelectedAns ] =useState("");
     const handleSelection = (e:any)=>{
-        // console.log()
+        
         setSelectedAns(e.target.value);
     
     }
     return (
         <div className='question-container'>
-            <div className=''>
+            <div className='question'>
                 {question}
                 </div>
-            <form onSubmit={(e:React.FormEvent<EventTarget>)=>callback(e,selectedAns)} action="j.php">
+            <form onSubmit={(e:React.FormEvent<EventTarget>)=>callback(e,selectedAns)} action="j.php" className="question-form" >
                 {
                     options.map((opt:string , ind :number)=>{
                         return (
                             <div key={ind}>
-                            <label>
+                            <label className='radio'>
                                 <input
                                 checked={selectedAns === opt}
                                 required
@@ -34,7 +34,7 @@ const QuestionCard:React.FC<questionPropsType> = ({question,options , callback})
                         )
                     })
                 }
-                <input type="submit" />
+                <input type="submit" className='submit' />
             </form>
 
         </div>
